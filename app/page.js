@@ -10,7 +10,7 @@ export default function page  ()  {
       
       <div className='w-1/2 h-1/2 flex absolute top-1/4 items-center justify-center gap-4'>
       <Link href="/login">
-        <div className='border flex justify-center h-36 p-10 rounded-md hover:bg-[#D8C3A5]'>
+        <div className='border flex justify-center h-36 transition-colors delay-100 duration-300 p-10 rounded-md hover:bg-[#D8C3A5]'>
         <FontAwesomeIcon className='w-14 ' icon={faPersonCircleQuestion} /></div>
         <div className='text-center'>
 
@@ -19,7 +19,7 @@ export default function page  ()  {
 
       </Link>
       <Link href="/home">
-        <div className='border w-36 flex justify-center rounded-md p-10 hover:bg-[#D8C3A5]'>
+        <div className='border w-36 flex transition-colors delay-100 duration-300 justify-center rounded-md p-10 hover:bg-[#D8C3A5]'>
           <FontAwesomeIcon className='w-10' icon={faPerson} /></div>
       <div  className='text-center'>
       <button>Member</button>
