@@ -1,52 +1,41 @@
-import { faArrowRight, faCartShopping, faGripLines, faMagnifyingGlass, faUserLarge } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+'use client'
+
 import React from 'react'
-// lib/fontawesome.js
+import Header from '../Header'
+import Products from '../product/Products'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 
 library.add(far)
 
-
-export default function homepage  ()  {
+export default function Homepage() {
   return (
-    <div className='bg-[#EAE7DC] h-screen fade-in'>
-      <div className='h-[80vh] bg-cover  ' 
-      style={{backgroundImage:"url('https://www.fay.com/medias/01-HP-Fay-21-6-Banner-Slider-Hero-DESK.jpg?context=bWFzdGVyfGltYWdlc3wyNTg5MDYyfGltYWdlL2pwZWd8aW1hZ2VzL2g5ZS9oYjYvOTAyNjAwMTQwMzkzNC5qcGd8MzNiOTZhM2FhOTZlMDY0OTM4MWI4YzVhYWE0MmJmZjJiYzY0YTZlZGZmYzA2NTY2NjQwNDlkMDZmYzk3NmYwMw')"}}>
-      <div className='text-center top-0 left-0 w-full h-6 bg-black/30 shadow-lg z-50 pointer-events-none'>
-        <p>Free Shipping and Returns</p>
-        <div className="w-full h-px bg-white"></div>
-        <div className='flex justify-between p-5 '>
-          <div className='flex gap-10 justify-items-start items-center '>   
-          <h2 className='font-bold text-4xl font-serif'>FAY</h2>
-          <p>SALES</p>
-          <p>MEN</p>
-          <p>WOMEN</p>
-          <p>FAY ARCHIVE</p>
-          </div>
-          <div className='flex gap-7 items-center'>
-            <p>ICONS</p>
-            <div className='flex'><p>FAY LIFE</p>
-          </div>
-            <FontAwesomeIcon icon={faMagnifyingGlass} className='w-5'/>
-            <FontAwesomeIcon className='w-6' icon={faUserLarge} /> 
-            <FontAwesomeIcon className='w-6' icon={['far', 'heart']} />
-            <FontAwesomeIcon className='w-6' icon={faCartShopping}  />
-            </div>
+    <div className="bg-[#EAE7DC] min-h-screen">
+      <Header />
+      <div
+        className="h-[80vh] bg-cover bg-center relative flex flex-col items-center justify-center text-black"
+        style={{
+          backgroundImage:
+            "url('https://www.fay.com/medias/01-HP-Fay-21-6-Banner-Slider-Hero-DESK.jpg?context=bWFzdGVyfGltYWdlc3wyNTg5MDYyfGltYWdlL2pwZWd8aW1hZ2VzL2g5ZS9oYjYvOTAyNjAwMTQwMzkzNC5qcGd8MzNiOTZhM2FhOTZlMDY0OTM4MWI4YzVhYWE0MmJmZjJiYzY0YTZlZGZmYzA2NTY2NjQwNDlkMDZmYzk3NmYwMw')",
+        }}
+      >
+        <div className="absolute top-0 w-full text-center bg-black/30 text-white py-1 text-sm z-40">
+          <p className='text-white'>Free Shipping and Returns</p>
         </div>
-
+        <div className="text-center z-10 mt-10">
+          <h1 className="text-3xl text-white font-bold">Fay Racing Jacket | Ronnie Kessel</h1>
+          <p className="mt-2 text-white">Limited Edition</p>
+          <div className="mt-4 flex justify-center items-center gap-2 cursor-pointer text-white transition-transform duration-300 ease-in-out transform hover:scale-110">
+            <button>SHOP NOW</button>
+            <FontAwesomeIcon icon={faArrowRight} className="w-4" />
+          </div>
+        </div>
       </div>
-      <div className=' flex items-center relative top-1/3 flex-col ' >
-
-      <h1 className='text-3xl font-bold'>Fay Racing Jacket | Ronnie Kessel</h1>
-      <br/>
-      <p>Limited Edition</p>
-      <br/>
-      <div className='flex justify-center gap-2 cursor-pointer'>
-      <button className='cursor-pointer'>SHOP NOW</button>
-      <FontAwesomeIcon className='w-4' icon={faArrowRight} /> 
-      </div>
-      </div>
+      <div className="py-10">
+        <h2 className="text-3xl text-center text-black font-semibold mb-6">Essentials</h2>
+        <Products />
       </div>
     </div>
   )

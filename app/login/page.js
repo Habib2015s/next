@@ -16,9 +16,10 @@ const page = () => {
                 <div className='flex gap-4'>
                     <p className='text-[#D8C3A5]'> Date of Birth</p>
                     <input className='bg-[#D8C3A5] text-black' type='date'/>
-                </div><div className='p-3 text-center bg-[#D8C3A5] text-black cursor-pointer'>
+                </div>
+                <div className='p-3 text-center bg-[#D8C3A5] text-black cursor-pointer'>
 
-                <button>Sign UP</button>
+                <button className='cursor-pointer'>Sign UP</button>
                 </div>
             </div>
         </div>
