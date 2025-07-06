@@ -1,5 +1,4 @@
 'use client'
-
 import React from 'react'
 import Header from '../Header'
 import Products from '../product/Products'
@@ -7,6 +6,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
+import MenWomen from '../MenWomen'
 
 library.add(far)
 
@@ -36,6 +36,9 @@ export default function Homepage() {
       <div className="py-10">
         <h2 className="text-3xl text-center text-black font-semibold mb-6">Essentials</h2>
         <Products />
+        <br/>
+      <MenWomen/>
+
       </div>
     </div>
   )

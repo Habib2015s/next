@@ -1,19 +1,21 @@
 'use client'
-import { useQuery } from "@tanstack/react-query"
-import MenWomen from "../MenWomen"
-export default function Products() {
+import { useQuery } from '@tanstack/react-query'
+import React from 'react'
+
+export default function page  ()  {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products', 'mens'],
     queryFn: () =>
-            fetch("https://dummyjson.com/products/category/mens-shirts?limit=4")
+            fetch("https://dummyjson.com/products/category/mens-shirts")
     .then(res => res.json()
       )
   })
-
-  if (isLoading) return <p>loading...</p>
+   if (isLoading) return <p>loading...</p>
   if (isError) return <p>error...</p>
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-[#EAE7DC] h-96 fade-in hover:">
+    <div className='bg-[#EAE7DC] h-screen fade-in'>
+
+     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-[#EAE7DC] h-96 fade-in hover:">
       {data.products.map((product) => (
         <div key={product.id} className="border p-4 rounded shadow-2xl cursor-pointer hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110">
           <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
@@ -21,7 +23,9 @@ export default function Products() {
           <p className="text-gray-700">${product.price}</p>
         </div>
       ))}
+      </div>
       
     </div>
   )
 }
+
