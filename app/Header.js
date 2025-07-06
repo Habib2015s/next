@@ -1,56 +1,89 @@
 'use client'
-import React, { useState, useEffect } from 'react';
-import { faCartShopping, faMagnifyingGlass, faUserLarge } from '@fortawesome/free-solid-svg-icons'
+
+import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faCartShopping,
+  faHeart,
+  faMagnifyingGlass,
+  faUserLarge,
+} from '@fortawesome/free-solid-svg-icons'
 
 export default function Header() {
   const [showHeader, setShowHeader] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const lastScrollY = useRef(0) // ✅ استفاده از useRef به جای state
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      setShowHeader(currentScrollY < lastScrollY)
-      setLastScrollY(currentScrollY)
+      const currentScroll = window.scrollY
+
+      if (currentScroll < lastScrollY.current) {
+        setShowHeader(true)
+      } else if (currentScroll > lastScrollY.current + 10) {
+        setShowHeader(false)
+      }
+
+      lastScrollY.current = currentScroll
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+  }, [])
 
-  const menuItems = ['SALES', 'MEN', 'WOMEN', 'FAY ARCHIVE']
-  const rightMenu = ['ICONS', 'FAY LIFE']
+  const menuItems = [
+    { label: 'SALES' },
+    { label: 'MEN', href: '/man' },
+    { label: 'WOMEN', href: '/woman' },
+    { label: 'FAY ARCHIVE' },
+  ]
+
+  const rightMenu = [
+    { label: 'ICONS' },
+    { label: 'FAY LIFE' },
+  ]
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full bg-[#EAE7DC] shadow-md z-50 transition-all duration-500 ease-in-out 
-        ${showHeader ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'}
-      `}
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#EAE7DC] shadow-md transition-transform duration-500 ease-in-out transform ${
+        showHeader ? 'translate-y-0' : '-translate-y-full'
+      }`}
     >
-      <div className="flex justify-between px-5 py-4">
-        {/* منو سمت چپ */}
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center px-6 py-4">
+        {/* Left menu */}
         <div className="flex gap-10 text-black items-center">
-          <h2 className="font-bold text-4xl font-serif">FAY</h2>
-          {menuItems.map((item, index) => (
-            <div key={index} className="relative group cursor-pointer text-sm font-medium">
-              <span>{item}</span>
-              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
-            </div>
-          ))}
+          <Link href="/home">
+            <h2 className="font-bold text-4xl font-serif">FAY</h2>
+          </Link>
+          {menuItems.map((item, index) =>
+            item.href ? (
+              <Link key={index} href={item.href}>
+                <div className="relative group cursor-pointer text-sm font-medium">
+                  <span>{item.label}</span>
+                  <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                </div>
+              </Link>
+            ) : (
+              <div key={index} className="relative group cursor-pointer text-sm font-medium">
+                <span>{item.label}</span>
+                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
+              </div>
+            )
+          )}
         </div>
 
-        <div className="flex gap-7 items-center text-black">
+        {/* Right menu */}
+        <div className="flex gap-6 items-center text-black">
           {rightMenu.map((item, index) => (
             <div key={index} className="relative group cursor-pointer text-sm font-medium">
-              <span>{item}</span>
+              <span>{item.label}</span>
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
             </div>
           ))}
-
-          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5" />
-          <FontAwesomeIcon icon={faUserLarge} className="w-6" />
-          <FontAwesomeIcon icon={['far', 'heart']} className="w-6" />
-          <FontAwesomeIcon icon={faCartShopping} className="w-6" />
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 cursor-pointer" />
+          <FontAwesomeIcon icon={faUserLarge} className="w-6 cursor-pointer" />
+          <FontAwesomeIcon icon={faHeart} className="w-6 cursor-pointer" />
+          <FontAwesomeIcon icon={faCartShopping} className="w-6 cursor-pointer" />
         </div>
       </div>
     </header>

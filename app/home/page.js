@@ -7,12 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import MenWomen from '../MenWomen'
+import Link from 'next/link'
 
 library.add(far)
 
 export default function Homepage() {
   return (
-    <div className="bg-[#EAE7DC] min-h-screen">
+    <div className="bg-[#EAE7DC] fade-in min-h-screen">
       <Header />
       <div
         className="h-[80vh] bg-cover bg-center relative flex flex-col items-center justify-center text-black"
@@ -27,10 +28,12 @@ export default function Homepage() {
         <div className="text-center z-10 mt-10">
           <h1 className="text-3xl text-white font-bold">Fay Racing Jacket | Ronnie Kessel</h1>
           <p className="mt-2 text-white">Limited Edition</p>
-          <div className="mt-4 flex justify-center items-center gap-2 cursor-pointer text-white transition-transform duration-300 ease-in-out transform hover:scale-110">
-            <button>SHOP NOW</button>
+          <Link href="/allproducts">
+          <div className="mt-4 flex justify-center items-center gap-2 cursor-pointer text-white transition-transform duration-300 ease-in-out transform hover:scale-150">
+            <button className='cursor-pointer'>SHOP NOW</button>
             <FontAwesomeIcon icon={faArrowRight} className="w-4" />
           </div>
+          </Link>
         </div>
       </div>
       <div className="py-10">

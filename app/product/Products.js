@@ -19,6 +19,9 @@ export default function Products() {
           <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
           <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
           <p className="text-gray-700">${product.price}</p>
+          <div className="bg-black text-[#E6D6C2] w-28 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer left-1/3 relative rounded-md">
+            <button className="cursor-pointer">Show Details</button>
+          </div>
         </div>
       ))}
       
