@@ -1,40 +1,35 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import React from 'react'
+import React, { useEffect } from 'react'
 
-export default function ProductModal({ product, onClose, scrollY }) {
-  if (!product) return null;
+export default function ProductModal({ product, onClose }) {
+  // 🚫 قفل کردن اسکرول پس‌زمینه
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [])
 
   return (
     <AnimatePresence>
-      <div>
-        {/* بک‌گراند خاکستری کلیک‌پذیر */}
+      {product && (
         <motion.div
-          className="fixed inset-0 bg-black/50 z-40"
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          onClick={onClose} // بستن با کلیک روی بک‌گراند
-        />
-
-        {/* کانتینر مودال در محل اسکرول کاربر */}
-        <motion.div
-          className="absolute left-0 w-full z-50 flex justify-center p-4"
-          style={{ top: scrollY }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          onClick={onClose}
         >
           <motion.div
-            className="bg-black rounded-full shadow-2xl relative flex flex-col justify-center text-center p-6 max-w-md w-full"
-            initial={{ scale: 0.5, opacity: 0 }}
+            className="bg-black rounded-full w-2xl h-2xl shadow-2xl relative flex flex-col items-center text-center p-6 max-w-md  mx-4"
+            initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.5, opacity: 0 }}
+            exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={(e) => e.stopPropagation()} // جلوگیری از بسته شدن مودال
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="absolute top-2 right-3 text-[#D8C3A5] text-xl font-bold cursor-pointer"
@@ -53,7 +48,7 @@ export default function ProductModal({ product, onClose, scrollY }) {
             <p className="text-lg font-bold mt-4 text-white">{product.price} $</p>
           </motion.div>
         </motion.div>
-      </div>
+      )}
     </AnimatePresence>
-  );
+  )
 }
