@@ -1,4 +1,5 @@
 'use client'
+
 import { useQuery } from "@tanstack/react-query"
 import Header from "../Header"
 import ProductModal from "../modal/ProductModal"
@@ -6,6 +7,7 @@ import { useState } from "react"
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [scrollY, setScrollY] = useState(0)
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products', 'category'],
@@ -13,6 +15,11 @@ export default function Products() {
       fetch("https://dummyjson.com/products")
         .then(res => res.json())
   })
+
+  const handleOpenModal = (product) => {
+    setScrollY(window.scrollY) // موقعیت اسکرول فعلی
+    setSelectedProduct(product)
+  }
 
   if (isLoading) return <p>loading...</p>
   if (isError) return <p>error...</p>
@@ -26,7 +33,7 @@ export default function Products() {
           <div
             key={product.id}
             className="border p-4 rounded shadow-2xl cursor-pointer hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
-            onClick={() => setSelectedProduct(product)}
+            onClick={() => handleOpenModal(product)}
           >
             <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
             <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
@@ -40,6 +47,7 @@ export default function Products() {
         <ProductModal
           product={selectedProduct}
           onClose={() => setSelectedProduct(null)}
+          scrollY={scrollY}
         />
       )}
     </div>
