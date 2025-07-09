@@ -8,6 +8,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import MenWomen from '../MenWomen'
 import Link from 'next/link'
+import Footer from '../Footer'
 
 library.add(far)
 
@@ -29,9 +30,10 @@ export default function Homepage() {
           <h1 className="text-3xl text-white font-bold">Fay Racing Jacket | Ronnie Kessel</h1>
           <p className="mt-2 text-white">Limited Edition</p>
           <Link href="/allproducts">
-          <div className="mt-4 flex justify-center items-center gap-2 cursor-pointer text-white transition-transform duration-300 ease-in-out transform hover:scale-150">
-            <button className='cursor-pointer'>SHOP NOW</button>
-            <FontAwesomeIcon icon={faArrowRight} className="w-4" />
+          <div className="mt-4 flex justify-center items-center gap-2 cursor-pointer text-white 
+          transition-transform duration-300 ease-in-out transform hover:scale-150">
+          <button className='cursor-pointer'>SHOP NOW</button>
+          <FontAwesomeIcon icon={faArrowRight} className="w-4" />
           </div>
           </Link>
         </div>
@@ -41,7 +43,7 @@ export default function Homepage() {
         <Products />
         <br/>
       <MenWomen/>
-
+<Footer/>
       </div>
     </div>
   )
