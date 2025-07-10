@@ -9,6 +9,7 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import MenWomen from '../MenWomen'
 import Link from 'next/link'
 import Footer from '../Footer'
+import SmartPhones from '../SmartPhones'
 
 library.add(far)
 
@@ -43,6 +44,7 @@ export default function Homepage() {
         <Products />
         <br/>
       <MenWomen/>
+      <SmartPhones/>
 <Footer/>
       </div>
     </div>

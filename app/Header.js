@@ -83,7 +83,9 @@ export default function Header() {
           <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 cursor-pointer" />
           <FontAwesomeIcon icon={faUserLarge} className="w-6 cursor-pointer" />
           <FontAwesomeIcon icon={faHeart} className="w-6 cursor-pointer" />
+          <Link href="/basket">
           <FontAwesomeIcon icon={faCartShopping} className="w-6 cursor-pointer" />
+          </Link>
         </div>
       </div>
     </header>
