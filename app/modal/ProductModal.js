@@ -2,9 +2,12 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import React, { useEffect } from 'react'
+import UseBasket from '../UseBasket'
+import toast from 'react-hot-toast'
 
 export default function ProductModal({ product, onClose }) {
-  // جلوگیری از اسکرول هنگام باز بودن مودال
+  const { actions } = UseBasket()
+
   useEffect(() => {
     if (product) {
       document.body.style.overflow = 'hidden'
@@ -26,7 +29,7 @@ export default function ProductModal({ product, onClose }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          onClick={onClose} // کلیک روی بک‌دراپ برای بستن مودال
+          onClick={onClose}
         >
           <motion.div
             className="bg-black rounded-full shadow-2xl relative flex flex-col justify-center items-center text-center p-6 w-80 h-80"
@@ -34,7 +37,7 @@ export default function ProductModal({ product, onClose }) {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.5, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={(e) => e.stopPropagation()} // جلوگیری از بسته شدن مودال روی کلیک داخل آن
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="absolute top-2 right-3 text-[#D8C3A5] text-xl font-bold cursor-pointer"
@@ -55,6 +58,18 @@ export default function ProductModal({ product, onClose }) {
             <p className="text-lg font-bold mt-4 text-white">
               {product.price} $
             </p>
+            <button
+              className="bg-[#D8C3A5] rounded-md hover:scale-90 cursor-pointer text-black p-1 hover:shadow-lg transition-transform duration-300"
+              onClick={(e) => {
+                e.stopPropagation()
+                actions.addToBasket(product)
+                actions.setPrice()
+                toast.success('✅Product is added!')
+
+              }}
+            >
+              Add to Basket
+            </button>
           </motion.div>
         </motion.div>
       )}

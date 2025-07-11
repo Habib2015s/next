@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";// حتماً اینو اضافه کن
 import QueryProvider from "./QueryProvider";
-import Header from "./Header";
+import { Toaster } from 'react-hot-toast'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#EAE7DC] h-screen`}>
         <QueryProvider>
           {children}
+                  <Toaster position="top-center" reverseOrder={false} />
         </QueryProvider>
       </body>
     </html>

@@ -24,8 +24,12 @@ export default function Products() {
   if (isError) return <p>error...</p>
 
   return (
-    <div className="min-h-screen p-6">
-      <Header />
+  <div className="min-h-screen p-6">
+    <Header />
+    {isLoading && <p className="mt-32 text-center text-gray-600">در حال بارگذاری محصولات...</p>}
+    {isError && <p className="mt-32 text-center text-red-500">خطا در بارگذاری محصولات.</p>}
+
+    {Array.isArray(data?.products) && (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-32">
         {data.products.map((product) => (
           <div
@@ -40,14 +44,16 @@ export default function Products() {
           </div>
         ))}
       </div>
+    )}
 
-      {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-          scrollY={modalY}
-        />
-      )}
-    </div>
-  )
+    {selectedProduct && (
+      <ProductModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+        scrollY={modalY}
+      />
+    )}
+  </div>
+)
+
 }
