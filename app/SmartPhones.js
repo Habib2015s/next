@@ -81,6 +81,12 @@ export default function SmartPhones() {
               exit={{ scale: 0.5, opacity: 0 }}
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
+              style={{
+  position: 'absolute',
+  top: scrollY + window.innerHeight / 2 - 192,
+  left: window.innerWidth / 2 - 192,
+}}
+
             >
               <button
                 className="absolute top-4 right-6 text-[#D8C3A5] text-3xl font-bold cursor-pointer"

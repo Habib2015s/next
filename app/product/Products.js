@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null)
-  const [scrollY, setScrollY] = useState(0)
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 })
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products', 'mens'],
@@ -15,7 +15,10 @@ export default function Products() {
   })
 
   const handleOpenModal = (product) => {
-    setScrollY(window.scrollY)
+    // موقعیت اسکرول + مرکز صفحه
+    const top = window.scrollY + window.innerHeight / 2
+    const left = window.scrollX + window.innerWidth / 2
+    setModalPosition({ top, left })
     setSelectedProduct(product)
   }
 
@@ -37,29 +40,28 @@ export default function Products() {
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-[#EAE7DC] h-96 fade-in">
         {data?.products?.map((product) => (
-  <div
-    key={product.id}
-    className="border p-4 rounded shadow-2xl cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
-  >
-    <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
-    <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
-    <p className="text-gray-700">${product.price}</p>
-    <div
-      className="bg-black text-[#E6D6C2] w-28 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto"
-      onClick={() => handleOpenModal(product)}
-    >
-      <button className="cursor-pointer">Show Details</button>
-    </div>
-  </div>
-))}
-
+          <div
+            key={product.id}
+            className="border p-4 rounded shadow-2xl cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
+          >
+            <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
+            <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
+            <p className="text-gray-700">${product.price}</p>
+            <div
+              className="bg-black text-[#E6D6C2] w-28 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto"
+              onClick={() => handleOpenModal(product)}
+            >
+              <button className="cursor-pointer">Show Details</button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* مودال دایره‌ای */}
       <AnimatePresence>
         {selectedProduct && (
           <motion.div
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6"
+            className="fixed inset-0 bg-black/50 z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -73,6 +75,11 @@ export default function Products() {
               exit={{ scale: 0.5, opacity: 0 }}
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
+              style={{
+                position: 'absolute',
+                top: modalPosition.top - 192, // 192 = نصف ارتفاع مودال (384/2)
+                left: modalPosition.left - 192, // 192 = نصف عرض مودال
+              }}
             >
               <button
                 className="absolute top-4 right-6 text-[#D8C3A5] text-3xl font-bold cursor-pointer"
