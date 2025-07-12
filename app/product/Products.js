@@ -36,22 +36,23 @@ export default function Products() {
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-[#EAE7DC] h-96 fade-in">
-        {data.products.map((product) => (
-          <div
-            key={product.id}
-            className="border p-4 rounded shadow-2xl cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
-          >
-            <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
-            <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
-            <p className="text-gray-700">${product.price}</p>
-            <div
-              className="bg-black text-[#E6D6C2] w-28 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto"
-              onClick={() => handleOpenModal(product)}
-            >
-              <button className="cursor-pointer">Show Details</button>
-            </div>
-          </div>
-        ))}
+        {data?.products?.map((product) => (
+  <div
+    key={product.id}
+    className="border p-4 rounded shadow-2xl cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
+  >
+    <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
+    <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
+    <p className="text-gray-700">${product.price}</p>
+    <div
+      className="bg-black text-[#E6D6C2] w-28 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto"
+      onClick={() => handleOpenModal(product)}
+    >
+      <button className="cursor-pointer">Show Details</button>
+    </div>
+  </div>
+))}
+
       </div>
 
       {/* مودال دایره‌ای */}
