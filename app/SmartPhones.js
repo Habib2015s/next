@@ -1,12 +1,13 @@
 'use client'
+
 import { useQuery } from "@tanstack/react-query"
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Link from "next/link"
+import ProductModal from "./modal/ProductModal"
 
 export default function SmartPhones() {
   const [selectedProduct, setSelectedProduct] = useState(null)
-  const [scrollY, setScrollY] = useState(0)
+  const [modalY, setModalY] = useState(0)
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products', 'phones'],
@@ -16,16 +17,12 @@ export default function SmartPhones() {
   })
 
   const handleOpenModal = (product) => {
-    setScrollY(window.scrollY)
+    setModalY(window.scrollY)
     setSelectedProduct(product)
   }
 
   useEffect(() => {
-    if (selectedProduct) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = selectedProduct ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
@@ -36,9 +33,10 @@ export default function SmartPhones() {
 
   return (
     <>
-    <div className="text-4xl text-black text-center">
+      <div className="text-4xl text-black text-center">
         <p>New Products</p>
-    </div>
+      </div>
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-[#EAE7DC] h-96 fade-in">
         {data.products.map((product) => (
           <div
@@ -57,56 +55,21 @@ export default function SmartPhones() {
           </div>
         ))}
       </div>
+
       <Link href="/allphones">
         <div className="bg-black text-[#E6D6C2] w-28 flex justify-center mt-7 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto">
-            <p>All Phones</p>
+          <p>All Phones</p>
         </div>
       </Link>
 
-      {/* مودال دایره‌ای */}
-      <AnimatePresence>
-        {selectedProduct && (
-          <motion.div
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={() => setSelectedProduct(null)}
-          >
-            <motion.div
-              className="bg-black rounded-full shadow-2xl flex flex-col items-center justify-center text-center p-8 w-96 h-96 relative"
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-  position: 'absolute',
-  top: scrollY + window.innerHeight / 2 - 192,
-  left: window.innerWidth / 2 - 192,
-}}
-
-            >
-              <button
-                className="absolute top-4 right-6 text-[#D8C3A5] text-3xl font-bold cursor-pointer"
-                onClick={() => setSelectedProduct(null)}
-                aria-label="Close Modal"
-              >
-                ×
-              </button>
-              <img
-                src={selectedProduct.thumbnail}
-                alt={selectedProduct.title}
-                className="w-36 h-36 object-contain mb-4 rounded-full"
-              />
-              <h2 className="text-2xl font-bold text-white">{selectedProduct.title}</h2>
-              <p className="text-md text-[#D8C3A5] mt-2 px-4 overflow-auto">{selectedProduct.description}</p>
-              <p className="text-xl font-semibold mt-4 text-white">{selectedProduct.price} $</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* استفاده از ProductModal مشترک */}
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          scrollY={scrollY}
+        />
+      )}
     </>
   )
 }
