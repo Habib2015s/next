@@ -3,11 +3,16 @@
 import { useQuery } from '@tanstack/react-query'
 import Header from '../Header'
 import ProductModal from '../modal/ProductModal'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [modalY, setModalY] = useState(0)
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products', 'category'],
@@ -15,20 +20,18 @@ export default function Products() {
   })
 
   const handleProductClick = (product) => {
+    if (!isClient) return
     setModalY(window.scrollY)
     setSelectedProduct(product)
   }
 
+  if (!isClient) return null
   if (isLoading) return <p>loading...</p>
   if (isError) return <p>error...</p>
 
   return (
-  <div className="min-h-screen p-6">
-    <Header />
-    {isLoading && <p className="mt-32 text-center text-gray-600">در حال بارگذاری محصولات...</p>}
-    {isError && <p className="mt-32 text-center text-red-500">خطا در بارگذاری محصولات.</p>}
-
-    {Array.isArray(data?.products) && (
+    <div className="min-h-screen p-6">
+      <Header />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-32">
         {data.products.map((product) => (
           <div
@@ -43,16 +46,14 @@ export default function Products() {
           </div>
         ))}
       </div>
-    )}
 
-    {selectedProduct && (
-      <ProductModal
-        product={selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-        scrollY={modalY}
-      />
-    )}
-  </div>
-)
-
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          scrollY={modalY}
+        />
+      )}
+    </div>
+  )
 }

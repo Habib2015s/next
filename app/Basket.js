@@ -17,7 +17,7 @@ export default function Basket() {
       <h2 className="text-black mt-16">Total Price: {invoice.totalPrice}</h2>
 
       {items.length === 0 ? (
-        <p className="mt-32 text-center text-gray-500">Basket is Empty </p>
+        <p className="mt-32 text-center text-gray-500">Basket is Empty</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
           {items.map((product) => (
@@ -27,22 +27,27 @@ export default function Basket() {
               onClick={() => handleProductClick(product)}
             >
               <img src={product.thumbnail} alt={product.title} />
-              <h2 className="text-black">{product.title}</h2>
+              <h2 className="text-black font-semibold">{product.title}</h2>
               <p className="text-black">Quantity: {product.quantity}</p>
               <p className="text-black">${product.price}</p>
-              <div className='flex justify-center'>
 
-              <button
-                onClick={(e) => {
-                  e.stopPropagation(); // جلوگیری از باز شدن جزئیات با کلیک روی دکمه
-                  actions.removeFromBasket(product);
-                }}
-                className="rounded-md p-2 hover:scale-95 bg-red-500 text-black flex justify-center 
-                cursor-pointer duration-150 hover:shadow-lg transition-transform mt-2"
+              {/* ✅ فقط اگر سایز وجود داشت نمایش داده شود */}
+              {product.size && (
+                <p className="text-black text-sm mt-1">Size: {product.size}</p>
+              )}
+
+              <div className="flex justify-center">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // جلوگیری از باز شدن مودال
+                    actions.removeFromBasket(product);
+                  }}
+                  className="rounded-md p-2 hover:scale-95 bg-red-500 text-black flex justify-center 
+                  cursor-pointer duration-150 hover:shadow-lg transition-transform mt-2"
                 >
-                Remove from Basket
-              </button>
-                </div>
+                  Remove from Basket
+                </button>
+              </div>
             </div>
           ))}
         </div>

@@ -8,6 +8,11 @@ import ProductModal from '../modal/ProductModal'
 export default function Page() {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [scrollY, setScrollY] = useState(0)
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products', 'mens'],
@@ -18,6 +23,7 @@ export default function Page() {
   })
 
   const handleOpenModal = product => {
+    if (!isClient) return
     setScrollY(window.scrollY)
     setSelectedProduct(product)
   }
@@ -48,7 +54,7 @@ export default function Page() {
         {data.products.map(product => (
           <div
             key={product.id}
-            className="border p-4 rounded shadow-2xl  hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
+            className="border p-4 rounded shadow-2xl hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
           >
             <img
               src={product.thumbnail}
