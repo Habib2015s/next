@@ -12,24 +12,43 @@ import {
 
 export default function Header() {
   const [showHeader, setShowHeader] = useState(true)
-  const lastScrollY = useRef(0) // ✅ استفاده از useRef به جای state
+  const lastScrollY = useRef(0)
+  const [showSearch, setShowSearch] = useState(false)
+  const searchBoxRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY
-
       if (currentScroll < lastScrollY.current) {
         setShowHeader(true)
       } else if (currentScroll > lastScrollY.current + 10) {
         setShowHeader(false)
       }
-
       lastScrollY.current = currentScroll
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // بسته شدن باکس سرچ با کلیک بیرون
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchBoxRef.current && !searchBoxRef.current.contains(e.target)) {
+        setShowSearch(false)
+      }
+    }
+
+    if (showSearch) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showSearch])
 
   const menuItems = [
     { label: 'SALES' },
@@ -49,7 +68,7 @@ export default function Header() {
         showHeader ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <div className="max-w-screen-xl mx-auto flex justify-between items-center px-6 py-4">
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center px-6 py-4 relative">
         {/* Left menu */}
         <div className="flex gap-10 text-black items-center">
           <Link href="/home">
@@ -73,20 +92,41 @@ export default function Header() {
         </div>
 
         {/* Right menu */}
-        <div className="flex gap-6 items-center text-black">
+        <div className="flex gap-6 items-center text-black relative">
           {rightMenu.map((item, index) => (
             <div key={index} className="relative group cursor-pointer text-sm font-medium">
               <span>{item.label}</span>
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
             </div>
           ))}
-          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 cursor-pointer" />
+
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className="w-5 cursor-pointer"
+            onClick={() => setShowSearch(prev => !prev)}
+          />
           <FontAwesomeIcon icon={faUserLarge} className="w-6 cursor-pointer" />
           <FontAwesomeIcon icon={faHeart} className="w-6 cursor-pointer" />
           <Link href="/mainbasket">
-          <FontAwesomeIcon icon={faCartShopping} className="w-6 cursor-pointer hover:scale-110 
-          hover:shadow-lg transition-transform duration-300" />
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              className="w-6 cursor-pointer hover:scale-110 hover:shadow-lg transition-transform duration-300"
+            />
           </Link>
+
+          {/* Search box */}
+          {showSearch && (
+            <div
+              ref={searchBoxRef}
+              className="absolute top-12 fade-in right-0 bg-white shadow-lg rounded-md p-2 w-64 z-50"
+            >
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+          )}
         </div>
       </div>
     </header>

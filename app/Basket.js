@@ -14,7 +14,7 @@ export default function Basket() {
   return (
     <div className="min-h-screen p-6">
       <Header />
-      <h2 className="text-black mt-16">Total Price: {invoice.totalPrice}</h2>
+      <h2 className="text-black text-2xl mt-16">Total Price: {invoice.totalPrice} $</h2>
 
       {items.length === 0 ? (
         <p className="mt-32 text-center text-gray-500">Basket is Empty</p>
@@ -23,7 +23,7 @@ export default function Basket() {
           {items.map((product) => (
             <div
               key={product.id}
-              className="border p-4 rounded shadow-lg cursor-pointer"
+              className="border p-4 rounded shadow-lg "
               onClick={() => handleProductClick(product)}
             >
               <img src={product.thumbnail} alt={product.title} />
