@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -9,12 +9,18 @@ import {
   faMagnifyingGlass,
   faUserLarge,
 } from '@fortawesome/free-solid-svg-icons'
+import ProductModal from './modal/ProductModal'
 
 export default function Header() {
   const [showHeader, setShowHeader] = useState(true)
+  const [showSearchBox, setShowSearchBox] = useState(false)
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [scrollY, setScrollY] = useState(0)
+  const searchRef = useRef(null)
+
   const lastScrollY = useRef(0)
-  const [showSearch, setShowSearch] = useState(false)
-  const searchBoxRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,24 +37,25 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // بسته شدن باکس سرچ با کلیک بیرون
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (searchBoxRef.current && !searchBoxRef.current.contains(e.target)) {
-        setShowSearch(false)
+    if (query.trim() === '') {
+      setResults([])
+      return
+    }
+
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`https://dummyjson.com/products/search?q=${query}`)
+        const data = await res.json()
+        setResults(data.products)
+      } catch (error) {
+        console.error('Search error:', error)
       }
     }
 
-    if (showSearch) {
-      document.addEventListener('mousedown', handleClickOutside)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [showSearch])
+    const timer = setTimeout(fetchProducts, 300) // debounce
+    return () => clearTimeout(timer)
+  }, [query])
 
   const menuItems = [
     { label: 'SALES' },
@@ -92,7 +99,7 @@ export default function Header() {
         </div>
 
         {/* Right menu */}
-        <div className="flex gap-6 items-center text-black relative">
+        <div className="flex gap-6 items-center text-black">
           {rightMenu.map((item, index) => (
             <div key={index} className="relative group cursor-pointer text-sm font-medium">
               <span>{item.label}</span>
@@ -103,32 +110,69 @@ export default function Header() {
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className="w-5 cursor-pointer"
-            onClick={() => setShowSearch(prev => !prev)}
+            onClick={() => {
+              setShowSearchBox(!showSearchBox)
+              setQuery('')
+              setResults([])
+            }}
           />
+
           <FontAwesomeIcon icon={faUserLarge} className="w-6 cursor-pointer" />
           <FontAwesomeIcon icon={faHeart} className="w-6 cursor-pointer" />
+
           <Link href="/mainbasket">
             <FontAwesomeIcon
               icon={faCartShopping}
               className="w-6 cursor-pointer hover:scale-110 hover:shadow-lg transition-transform duration-300"
             />
           </Link>
-
-          {/* Search box */}
-          {showSearch && (
-            <div
-              ref={searchBoxRef}
-              className="absolute top-12 fade-in right-0 bg-white shadow-lg rounded-md p-2 w-64 z-50"
-            >
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-              />
-            </div>
-          )}
         </div>
+
+        {/* 🔍 Search Box */}
+        {showSearchBox && (
+          <div
+            ref={searchRef}
+            className="absolute fade-in top-full left-1/2 -translate-x-1/2 mt-2 w-96 bg-white border rounded-md shadow-lg p-4 z-50"
+          >
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="text-gray-600 w-full border px-3 py-2 rounded "
+            />
+            <ul className="max-h-64 overflow-y-auto">
+              {results.length > 0 ? (
+                results.map((product) => (
+                  <li
+                    key={product.id}
+                    className="cursor-pointer hover:bg-gray-100 p-2 rounded flex items-center gap-2"
+                    onClick={() => {
+                      setSelectedProduct(product)
+                      setScrollY(window.scrollY)
+                      setShowSearchBox(false)
+                    }}
+                  >
+                    <img src={product.thumbnail} alt={product.title} className="w-10 h-10 object-cover rounded" />
+                    <span className='text-black'>{product.title}</span>
+                  </li>
+                ))
+              ) : (
+                query && <li className="text-sm text-gray-500">No results found</li>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
+
+      {/* 🟢 Product Modal */}
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          scrollY={scrollY}
+        />
+      )}
     </header>
   )
 }
