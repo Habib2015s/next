@@ -56,7 +56,7 @@ export default function SmartPhones() {
         ))}
       </div>
 
-      <Link href="/allphones">
+      <Link href="/Allphones">
         <div className="bg-black text-[#E6D6C2] w-28 flex justify-center mt-7 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto">
           <p>All Phones</p>
         </div>

@@ -5,7 +5,7 @@ import Header from '../Header'
 import ProductModal from '../modal/ProductModal'
 import { useState } from 'react'
 
-export default function allphones() {
+export default function Allphones() {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [modalY, setModalY] = useState(0)
 
