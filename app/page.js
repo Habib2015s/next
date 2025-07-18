@@ -3,31 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import React from 'react'
 
-export default function page  ()  {
-
+export default function Page() {
   return (
     <div className='flex justify-center items-center bg-black h-screen'>
-      
-      <div className='w-1/2 h-1/2 flex absolute top-1/4 items-center justify-center gap-4'>
-      <Link href="/login">
-        <div className='border flex justify-center h-auto transition-colors delay-100 duration-300 p-8 rounded-md hover:bg-[#D8C3A5]'>
-        <FontAwesomeIcon className=' h-20' icon={faPersonCircleQuestion} /></div>
-        <div className='text-center'>
+      <div className='flex flex-col md:flex-row items-center justify-center gap-8'>
 
-      <button>Guest</button>
-        </div>
+        {/* Guest Link */}
+        <Link href="/login" className='text-center group'>
+          <div className='border flex flex-col justify-center items-center w-36 h-36 p-4 rounded-md transition-colors duration-300 hover:bg-[#D8C3A5]'>
+            <FontAwesomeIcon className='h-16 text-white group-hover:text-black' icon={faPersonCircleQuestion} title="Guest" />
+            <span className='mt-2 text-white group-hover:text-black'>Guest</span>
+          </div>
+        </Link>
 
-      </Link>
-      <Link href="/home">
-        <div className='border w-36 flex transition-colors delay-100 duration-300 justify-center rounded-md items-center h-36 hover:bg-[#D8C3A5]'>
-          <FontAwesomeIcon className='h-20' icon={faPerson} /></div>
-      <div  className='text-center'>
-      <button>Member</button>
+        {/* Member Link */}
+        <Link href="/home" className='text-center group'>
+          <div className='border flex flex-col justify-center items-center w-36 h-36 p-4 rounded-md transition-colors duration-300 hover:bg-[#D8C3A5]'>
+            <FontAwesomeIcon className='h-16 text-white group-hover:text-black' icon={faPerson} title="Member" />
+            <span className='mt-2 text-white group-hover:text-black'>Member</span>
+          </div>
+        </Link>
 
       </div>
-      </Link>
-        </div>
-
     </div>
   )
 }
