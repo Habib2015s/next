@@ -41,9 +41,9 @@ export default function SmartPhones() {
         {data.products.map((product) => (
           <div
             key={product.id}
-            className="border p-4 rounded shadow-2xl bg-white cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
+            className="border p-4 rounded shadow-2xl bg-[#EAE7DC] cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
           >
-            <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-cover rounded mb-2" />
+            <img src={product.thumbnail} alt={product.title} className="w-full object-cover rounded mb-2" />
             <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
             <p className="text-gray-700">${product.price}</p>
             <div
