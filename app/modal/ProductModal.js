@@ -3,12 +3,17 @@ import React, { useEffect, useState } from 'react'
 import UseBasket from '../UseBasket'
 import toast from 'react-hot-toast'
 
-export default function ProductModal({ product, onClose, scrollY }) {
+export default function ProductModal({ product, onClose }) {
   const { actions } = UseBasket()
   const isClothing = ['mens-shirts', 'womens-dresses'].includes(product?.category)
   const [size, setSize] = useState('M')
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
+    // گرفتن مقدار اسکرول فعلی وقتی مودال باز می‌شه
+    setScrollY(window.scrollY || window.pageYOffset)
+
+    // قفل کردن اسکرول بدنه
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = ''
@@ -19,7 +24,7 @@ export default function ProductModal({ product, onClose, scrollY }) {
 
   return (
     <AnimatePresence>
-      {/* پس‌زمینه نیمه‌شفاف که کل صفحه رو می‌پوشونه */}
+      {/* بک‌در نیمه‌شفاف */}
       <motion.div
         key="backdrop"
         className="fixed inset-0 bg-black/50 z-40"
@@ -29,11 +34,11 @@ export default function ProductModal({ product, onClose, scrollY }) {
         onClick={onClose}
       />
 
-      {/* مودال دایره‌ای */}
+      {/* مودال که در موقعیت اسکرول کاربر باز می‌شه */}
       <motion.div
         key="modal"
-        className="fixed left-1/2 -translate-x-1/2 z-50 bg-black rounded-full shadow-2xl flex flex-col items-center text-center p-6 w-80 h-80"
-        style={{ top: scrollY + 100 }}
+        className="fixed left-1/2 -translate-x-1/2 z-50 bg-black rounded-full shadow-2xl flex flex-col items-center text-center p-6 w-80"
+        style={{ top: scrollY + 100 }} // می‌تونی 100 رو کمتر یا بیشتر کنی
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}

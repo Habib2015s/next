@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 const page = () => {
@@ -7,20 +8,21 @@ const page = () => {
             <p className='text-[#D8C3A5] text-6xl font-bold'>Sign Up</p>
             <div className='flex flex-col gap-3'>
                 <p className='text-[#D8C3A5]'>Name</p>
-                <input className='bg-black text-[#D8C3A5] rounded-md'  type='string' placeholder='enter your name'/>
+                <input className='bg-black p-3 text-[#D8C3A5] rounded-md'  type='string' placeholder='enter your name'/>
         <div className="w-full h-px bg-[#D8C3A5]  "></div>
                 <p className='text-[#D8C3A5]'>Password</p>
-                <input type='password' className='bg-black text-[#D8C3A5] rounded-md' placeholder='enter your password'/>
+                <input type='password' className='bg-black p-3 text-[#D8C3A5] rounded-md' placeholder='enter your password'/>
         <div className="w-full h-px bg-[#D8C3A5]"></div>
                
                 <div className='flex gap-4 '>
                     <p className='text-[#D8C3A5]'> Date of Birth</p>
                     <input className='bg-[#D8C3A5] text-black rounded-md' type='date'/>
                 </div>
+                <Link href="/home">
                 <div className='p-3 text-center bg-[#D8C3A5] rounded-md text-black cursor-pointer'>
-
                 <button className='cursor-pointer '>Sign UP</button>
                 </div>
+                </Link>
             </div>
         </div>
     </div>
