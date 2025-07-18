@@ -1,44 +1,49 @@
 import Link from 'next/link'
 import React from 'react'
-import Footer from './Footer'
 
-export default function MenWomen  ()  {
-
+export default function MenWomen() {
   return (
-    <div className=' h-screen  bg-[#EAE7DC]'>
-        <div className=' h-11/12 flex w-full p-16 bg-[#C3B091] '>
-          <Link href="/man">
-            <div className='bg-cover w-40 left-12 bottom-8 h-fit p-48 bg-center relative cursor-pointer shadow-2xl hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110   '
-             style={{height:"-webkit-fill-available",
-                backgroundImage:
+    <div className="min-h-screen bg-[#EAE7DC]">
+      <div className="flex flex-col md:flex-row w-full p-4 md:p-16 bg-[#C3B091] gap-6 md:gap-12">
+        {/* دسته‌بندی مردانه */}
+        <Link href="/man" className="flex-1">
+          <div
+            className="bg-cover bg-center h-64 md:h-[500px] rounded-md relative shadow-2xl hover:shadow-lg transition-transform duration-300 hover:scale-105"
+            style={{
+              backgroundImage:
                 "url('https://akkeknitwear.com/website/wp-content/uploads/2023/10/akke-2-1.webp')",
             }}
-            ><div className='text-center font-bold text-4xl text-white'>
+          >
+            <div className="absolute inset-0 bg-black/30 flex justify-center items-center">
+              <p className="text-white text-3xl md:text-5xl font-bold">Men</p>
+            </div>
+          </div>
+        </Link>
 
-            <p>Men</p>
+        {/* دسته‌بندی زنانه */}
+        <Link href="/woman" className="flex-1">
+          <div
+            className="bg-cover bg-center h-64 md:h-[500px] rounded-md relative shadow-2xl hover:shadow-lg transition-transform duration-300 hover:scale-105"
+            style={{
+              backgroundImage:
+                "url('https://akkeknitwear.com/website/wp-content/uploads/2023/10/akke-3-1.webp')",
+            }}
+          >
+            <div className="absolute inset-0 bg-black/30 flex justify-center items-center">
+              <p className="text-white text-3xl md:text-5xl font-bold">Women</p>
+            </div>
+          </div>
+        </Link>
+
+        {/* متن Category */}
+        <div className="hidden lg:flex flex-col justify-center items-center text-6xl font-bold text-white">
+          <p className="leading-[1.2] text-center">
+            Ca<br />
+            teg<br />
+            ory
+          </p>
         </div>
-            </div>
-            </Link>
-            <Link href="/woman">
-            <div className='bg-cover w-40 p-48 top-12 left-56 bg-center relative  cursor-pointer shadow-2xl hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110 '
-            style={{height:"-webkit-fill-available",
-                backgroundImage:
-                "url('https://akkeknitwear.com/website/wp-content/uploads/2023/10/akke-3-1.webp')",}}
-                ><div className='text-center font-bold text-4xl text-white'>
-
-                <p>Women</p>
-            </div>
-            </div>
-                </Link>
-            <div className='relative left-96 font-bold text-8xl flex items-center'>
-                
-            <p>Ca<br/>
-                teg<br/>
-                ory</p>
-            </div>
-        </div>
-
+      </div>
     </div>
   )
 }
-
