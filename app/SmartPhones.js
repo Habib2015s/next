@@ -7,7 +7,7 @@ import ProductModal from "./modal/ProductModal"
 
 export default function SmartPhones() {
   const [selectedProduct, setSelectedProduct] = useState(null)
-  const [modalY, setModalY] = useState(0)
+  const [scrollY, setScrollY] = useState(0)
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products', 'phones'],
@@ -17,7 +17,7 @@ export default function SmartPhones() {
   })
 
   const handleOpenModal = (product) => {
-    setModalY(window.scrollY)
+    setScrollY(window.scrollY)
     setSelectedProduct(product)
   }
 
@@ -28,41 +28,40 @@ export default function SmartPhones() {
     }
   }, [selectedProduct])
 
-  if (isLoading) return <p>loading...</p>
-  if (isError) return <p>error...</p>
+  if (isLoading) return <p className="p-4 text-center">در حال بارگذاری...</p>
+  if (isError) return <p className="p-4 text-center text-red-500">خطا در دریافت اطلاعات</p>
 
   return (
     <>
-      <div className="text-4xl text-black text-center">
+      <div className="text-4xl text-black text-center mb-6">
         <p>New Products</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-[#EAE7DC] h-96 fade-in">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 bg-[#EAE7DC] fade-in">
         {data.products.map((product) => (
           <div
             key={product.id}
-            className="border p-4 rounded shadow-2xl cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
+            className="border p-4 rounded shadow-2xl bg-white cursor-default hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
           >
-            <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-contain mb-2" />
+            <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-cover rounded mb-2" />
             <h2 className="text-sm text-black font-semibold mb-1">{product.title}</h2>
             <p className="text-gray-700">${product.price}</p>
             <div
-              className="bg-black text-[#E6D6C2] w-28 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto"
+              className="bg-black text-[#E6D6C2] w-full p-2 mt-3 hover:scale-105 delay-100 duration-300 cursor-pointer text-center rounded-md"
               onClick={() => handleOpenModal(product)}
             >
-              <button className="cursor-pointer">Show Details</button>
+              <button>Show Details</button>
             </div>
           </div>
         ))}
       </div>
 
       <Link href="/Allphones">
-        <div className="bg-black text-[#E6D6C2] w-28 flex justify-center mt-7 p-2 hover:scale-125 delay-100 duration-300 cursor-pointer relative rounded-md mx-auto">
+        <div className="bg-black text-[#E6D6C2] w-36 sm:w-40 p-2 mt-8 mb-10 hover:scale-105 transition-all cursor-pointer text-center rounded-md mx-auto">
           <p>All Phones</p>
         </div>
       </Link>
 
-      {/* استفاده از ProductModal مشترک */}
       {selectedProduct && (
         <ProductModal
           product={selectedProduct}
